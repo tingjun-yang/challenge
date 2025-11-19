@@ -1,0 +1,28 @@
+name: Score Submission
+
+on:
+  pull_request:
+    paths:
+      - 'submissions/**'
+
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install pandas numpy scipy
+      - name: Run scoring
+        run: |
+          python scoring/score_submission.py ${{ github.event.pull_request.number }}
+      - name: Update leaderboard
+        run: |
+          python update_leaderboard.py  # merges new score into leaderboard.json
+      - name: Commit leaderboard
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update leaderboard"
