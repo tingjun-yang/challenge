@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Q-Variance Prize Leaderboard</title>
+  <script>
+    fetch('leaderboard/leaderboard.json')
+      .then(r => r.json())
+      .then(data => {
+        const tbody = document.getElementById('board');
+        data.sort((a,b) => b.final_r2 - a.final_r2);
+        data.forEach((s,i) => {
+          const row = `<tr style="background: ${s.passed ? '#d4edda' : ''}">
+            <td>${i+1}</td>
+            <td>${s.submission}</td>
+            <td>${s.author}</td>
+            <td>${s.final_r2}</td>
+            <td>${s.passed ? '✓ PASSED' : '✗'}</td>
+            <td>${s.date}</td>
+          </tr>`;
+          tbody.innerHTML += row;
+        });
+      });
+  </script>
+</head>
+<body>
+  <h1>Q-Variance Prize Leaderboard — $20,000</h1>
+  <p>Target: R² ≥ 0.92 using ≤1 free parameter (continuous-time models only)</p>
+  <table border="1" style="font-family: monospace;">
+    <thead><tr>
+      <th>Rank</th><th>Submission</th><th>Author</th><th>R²</th><th>Status</th><th>Date</th>
+    </tr></thead>
+    <tbody id="board"></tbody>
+  </table>
+  <p>Current leader: <strong>Quantum Baseline (Orrell 2025) — R² = 0.951</strong></p>
+</body>
+</html>
