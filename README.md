@@ -12,6 +12,6 @@ Repository contains:
 - Live leaderboard
 - Baseline quantum fit
 
-AI and machine-learning entries explicitly encouraged.
+AI entries encouraged.
 
 Launching January 2026 — details soon.
