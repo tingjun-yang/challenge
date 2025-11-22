@@ -18,7 +18,7 @@ Repository contains:
 - Baseline quantum fit
 - Plot Figure_1.png showing q-variance and R^2 value
 
-For example, to try a rough vol model, simulate paths with dV_t = -κ V_t dt + σ V_t^γ dW_t (γ=0.1), compute sigma(z) for each window, output new Parquet.
+For example, to try a rough vol model, simulate a long price series, compute sigma(z) for each window, output new Parquet.
 
 Dataset: 352 S&P 500 stocks (1992+ history), 1–26 weeks T, ~300K rows. 
 
@@ -34,7 +34,7 @@ Python dependencies: pip install yfinance pandas numpy scipy matplotlib pyarrow
 
 ## Scoring the Challenge
 
-The challenge scores submissions on **one global R²** over the **entire dataset** (all 352 stocks, all 26 horizons).
+The challenge scores submissions on **one global R²** over the **entire dataset** (all 352 stocks, all 26 horizons). Since the quantum model with σ₀=0.255 and zoff = 0.02 gives a near-perfect fit (R² = 0.998) this curve can be used as a proxy for the real data.
 
 ### How Scoring Works
 1. **Load Submission**: `score_submission.py` reads your `dataset.parquet` (must match format: ticker, date, T, z, sigma).
@@ -60,13 +60,6 @@ python3 score_submission.py
 4. Open a Pull Request titled: "Submission: [Your Team Name]"
 
 GitHub Actions will automatically run `score_submission.py` and post your score.
-
-**Challenge Rules**
-- Must use **variance** (sigma²)
-- Must cover **all 352 stocks** and **T = 5,10,...,130 days**
-
-Good luck.
-
 
 **Frequently Asked Questions**
 
