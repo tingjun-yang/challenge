@@ -18,7 +18,7 @@ Repository contains:
 
 For example, to try a rough vol model, simulate a long price series, compute sigma(z) for each window, output new Parquet.
 
-Dataset: 352 S&P 500 stocks (2000+ history), 1–26 weeks T, ~300K rows. 
+Dataset: 352 S&P 500 stocks (>25 year history), 1–26 weeks T, ~300K rows. 
 
 Columns: ticker (str), date (date), T (int), sigma (float, annualized vol), z (float, scaled log return).
 
