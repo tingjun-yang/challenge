@@ -12,7 +12,6 @@ Repository contains:
 - Data set (dataset.parquet) in three parts containing price data for 352 stocks from the S&P 500 (stocks with less than 25 years of data excluded)
 - Full dataset generator (data_loader.py) to show how the data was generated
 - Scoring engine
-- Live leaderboard
 - Baseline quantum fit
 - Plot [Figure 1](Figure_1.png) showing q-variance and R² value for the actual data
 - Jupyter notebook (qvariance_single.ipynb) showing how to compute q-variance for a single asset
@@ -102,7 +101,7 @@ A. Nothing, other than the fact that some problems which couple probability and 
 
 Q: Can I use AI for the challenge?
 
-A: Yes, AI-assisted entries are encouraged. We used Grok to help design and code the challenge. Its [entry](submissions/grok_rough_vol) is a modified rough volatility model which uses four parameters to achieve an R² of 0.986 – close but no cigar! The aim is to find a process which can achieve better results in a more parsimonious fashion.
+A: Yes, AI-assisted entries are encouraged. We used Grok to help design and code the challenge. Its [entry](submissions/grok_rough_vol) is a modified rough volatility model which achieves an R² of 0.986 but requires four parameters to do it. The aim is to find a process which can achieve better results with fewer parameters.
 
 ## Further Reading
 
