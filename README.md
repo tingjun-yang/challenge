@@ -100,7 +100,7 @@ A. Nothing, other than the fact that some problems which couple probability and 
 
 Q: Can I use AI for the challenge?
 
-A: Yes, AI-assisted entries are encouraged. We used Grok to help design and code the challenge. Its [entry](submissions/grok_rough_vol) is a modified rough volatility model which achieves an R² of 0.986, however it uses four parameters and is not time-invariant so sadly does not meet the standard. The aim is to find a process which can achieve better results with fewer parameters.
+A: Yes, AI-assisted entries are encouraged. We used Grok to help design and code the challenge. Its [entry](submissions/grok_rough_vol) is a modified rough volatility model which achieves an R² of 0.986, however it does use four parameters and also is not time-invariant. The aim is to find a process which can achieve better results with fewer parameters.
 
 ## Further Reading
 
