@@ -88,7 +88,7 @@ A: Yes, it implies that price-change follows the q-distribution which is a parti
 
 Q: What is the point in using a classical model if the quantum model is an almost perfect match to the data?
 
-A: The quantum model predicts variance and the price-change distribution, but does not provide a time series of daily prices. If a classical model can do that, and still produce the quadratic shape, then that will be very useful. That is why we are giving the classical model an extra parameter (three instead of two).
+A: The quantum model predicts variance and the price-change distribution, but does not provide a time series of daily prices. If a classical model can do that, and still produce the quadratic shape, then that will be very useful, which is why we are giving the classical model an extra parameter (three instead of two).
 
 Q: How was the quantum model derived?
 
