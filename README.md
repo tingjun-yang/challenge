@@ -8,7 +8,7 @@ Q-variance states that, for a sufficiently large data set of stock prices, varia
 
 $\sigma^2(z) = \sigma_0^2 + \frac{(z-z_0)^2}{2}$
 
-where $z = x/\sqrt{T}$, and $x$ is the log price change over a period $T$, adjusted for drift. The figure above illustrates q-variance for stocks from the S&P 500, and periods $T$ of 1-26 weeks. Blue points are variance vs $z$ for individual periods, blue line is average variance as a function of $z$, red line is the q-variance curve. Read the [Q-Variance Wilmott paper](Q-Variance_Wilmott_July2025.pdf) for more details.
+where $z = x/\sqrt{T}$, and $x$ is the log price change over a period $T$, adjusted for drift (in theory $z_0=0$ but it is included to account for small asymmetries). The figure above illustrates q-variance for stocks from the S&P 500, and periods $T$ of 1-26 weeks. Blue points are variance vs $z$ for individual periods, blue line is average variance as a function of $z$, red line is the q-variance curve. Read the [Q-Variance Wilmott paper](Q-Variance_Wilmott_July2025.pdf) for more details.
 
 To take part in the challenge, use your model to produce a long time series of simulated price data, and score it as described below.
 
@@ -16,11 +16,11 @@ To take part in the challenge, use your model to produce a long time series of s
 
 The repository contains:
 - Parquet file in three parts containing price data for 352 stocks from the S&P 500 (stocks with less than 25 years of data excluded)
-- Full dataset generator [data_loader.py](data_loader.py) to show how the data was generated
-- Baseline model fit [baseline_fit.py](baseline/baseline_fit.py)
-- Plot [Figure 1](Figure_1.png) showing q-variance and R² value for the actual data
-- Scoring engine [score_submission.py](code/score_submission.py) for your model
-- Jupyter notebook [qvariance_single.ipynb](notebooks/qvariance_single.ipynb) showing how to compute q-variance for a single asset
+- Full dataset generator `data_loader.py` to show how the data was generated
+- Baseline model fit `baseline/baseline_fit.py`
+- Figures showing q-variance and R² value for the actual data
+- Scoring engine `code/score_submission.py` for your model
+- Jupyter notebook `notebooks/qvariance_single.ipynb` showing how to compute q-variance for a single asset
 
 The dataset used as a benchmark is for 352 stocks from the S&P 500 (>25 year history), with periods T of 1–26 weeks.  
 
@@ -39,9 +39,9 @@ The challenge scores submissions on **one global R²** over the **entire dataset
 
 To get started, first simulate a long price series using your model, then use `data_loader.py` to compute the variances $\sigma^2(z)$ for each window and output the `dataset.parquet` file. The benchmark file has around 3 million rows, so you want a long simulation.
 
-Next, use `score_submission.py` to read your `dataset.parquet` (must match format: ticker, date, T, z, sigma). This will bin the values of $z$ in range from -0.6 to 0.6, and compute the average variance per bin. It also computes the R² of your binned averages to the q-variance curve $\sigma^2(z) = \sigma_0^2 + (z-z_0)^2/2$.
+Next, use `score_submission.py` to read your `dataset.parquet` (must match format: ticker, date, T, z, sigma). This will bin the values of $z$ in the range from -0.6 to 0.6, and compute the average variance per bin. It also computes the R² of your binned averages to the q-variance curve $\sigma^2(z) = \sigma_0^2 + (z-z_0)^2/2$.
 
-The threshold for the challenge is R² ≥ 0.995 with no more than three free parameters (note the agreement of the parabola with data is 0.998). The price-change distribution in $z$ should also be time-invariant, so the model should be independent of period length $T$.
+The threshold for the challenge is R² ≥ 0.995 with no more than three free parameters. The price-change distribution in $z$ should also be time-invariant, so the model should be independent of period length $T$.
 
 To make your entry official:
 
@@ -62,7 +62,7 @@ A: For fun, an intellectual challenge, kudos. But also because, if your existing
 
 Q: Is q-variance a well-known "stylized fact"?
 
-A: No, a stylized fact is just a general observation about market data. Q-variance is a **falsifiable prediction** because the multiplicative constant on the quadratic term is not a fit, it is set by theory at 0.5. The same formula applies for all period lengths T. As far as we are aware this is the most clear-cut and easily tested example of a model prediction in finance.
+A: No, a stylized fact is a general observation about market data, but q-variance is a **falsifiable prediction** because the multiplicative constant on the quadratic term is not a fit, it is set by theory at 0.5. The same formula applies for all period lengths T. As far as we are aware this is the most clear-cut and easily tested example of a model prediction in finance.
 
 Q: Is q-variance a large effect?
 
