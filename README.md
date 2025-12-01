@@ -4,13 +4,13 @@
 
 Can any continuous-time stochastic-volatility model, using no more than three free parameters, reproduce what may be the most **clear-cut empirical property of variance**, namely the parabolic relationship known as **q-variance**?
 
-Q-variance states that, for a sufficiently large data set of stock prices, variance is well-approximated by the equation
+This states that, for a sufficiently large data set of stock prices, variance is well-approximated by the equation
 
 $\sigma^2(z) = \sigma_0^2 + \frac{(z-z_0)^2}{2}$
 
-where $z = x/\sqrt{T}$, and $x$ is the log price change over a period $T$, adjusted for drift (the parameter $z_0$ accounts for small asymmetries). The figure above illustrates q-variance for stocks from the S&P 500, and periods $T$ of 1-26 weeks. Blue points are variance vs $z$ for individual periods, blue line is average variance as a function of $z$, red line is the q-variance curve. Read the [Q-Variance Wilmott paper](Q-Variance_Wilmott_July2025.pdf) for more details and examples.
+where $z = x/\sqrt{T}$, and $x$ is the log price change over a period $T$, adjusted for drift (the parameter $z_0$ accounts for small asymmetries). The figure above illustrates q-variance for stocks from the S&P 500, and periods $T$ of 1-26 weeks. Blue points are variance vs $z$ for individual periods, blue line is average variance as a function of $z$, red line is the q-variance curve. 
 
-Q-variance is not an obscure phenomenon, it is a basic property of volatility, which affects everything from option pricing to how we measure and talk about volatility. Modelling volatility without it is like modelling the arc of a cannonball, not as a parabola, but as a straight line plus noise (not recommended).
+Q-variance affects everything from option pricing to how we measure and talk about volatility. Modelling volatility without it is like modelling the arc of a cannonball, not as a parabola, but as a straight line plus noise (not recommended). Read the [Q-Variance Wilmott paper](Q-Variance_Wilmott_July2025.pdf) for more details and examples.
 
 To take part in the challenge, use your model to produce a long time series of simulated price data, and score it as described below.
 
@@ -21,6 +21,7 @@ The repository contains:
 - Full dataset generator `data_loader.py` to show how the data was generated
 - Baseline model fit `baseline/baseline_fit.py`
 - Figures showing q-variance and R² value for the actual data
+- Dataset generator `code/data_loader_csv.py` to load a CSV file of model price data and generate a parquet file
 - Scoring engine `code/score_submission.py` for your model
 - Jupyter notebook `notebooks/qvariance_single.ipynb` showing how to compute q-variance for a single asset
 
@@ -39,7 +40,7 @@ Python dependencies: pip install yfinance pandas numpy scipy matplotlib pyarrow
 
 The challenge scores submissions on **one global R²** over the **entire dataset**. Since the q-variance parabola with $\sigma_0=0.255$ and $z_0 = 0.02$ gives a near-perfect fit (R² = 0.998) this curve can be used as a proxy for the real data. In other words, the aim is to fit the two-parameter parabola, using **up to three parameters** – must be easy, right?
 
-To get started, first simulate a long price series using your model, then use `data_loader.py` to compute the variances $\sigma^2(z)$ for each window and output the `dataset.parquet` file. The benchmark file has around 3 million rows, so you want a long simulation.
+To get started, first simulate a long price series using your model, and save as a CSV file with a column named 'Price'. Then use `data_loader_csv.py` to compute the variances $\sigma^2(z)$ for each window and output the `dataset.parquet` file. The benchmark file has around 3 million rows, so you want a long simulation.
 
 Next, use `score_submission.py` to read your `dataset.parquet` (must match format: ticker, date, T, z, sigma). This will bin the values of $z$ in the range from -0.6 to 0.6 as in the figure, and compute the average variance per bin. It also computes the R² of your binned averages to the q-variance curve $\sigma^2(z) = \sigma_0^2 + (z-z_0)^2/2$.
 
