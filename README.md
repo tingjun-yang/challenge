@@ -42,11 +42,13 @@ Python dependencies: pip install yfinance pandas numpy scipy matplotlib pyarrow
 
 The challenge scores submissions on **one global R²** over the **entire dataset**. Since the q-variance parabola with $\sigma_0=0.259$ and $z_0 = 0.021$ gives a near-perfect fit (R² = 0.999) this curve can be used as a proxy for the real data. In other words, the aim is to fit the two-parameter parabola, using **up to three parameters** – must be easy, right?
 
-To get started, first simulate a long series of daily prices using your model, and save as a CSV file with a column named 'Price'. Then use `data_loader_csv.py` to compute the variances $\sigma^2(z)$ for each window and output the `dataset.parquet` file. The benchmark file has around 3 million rows, so you want a long simulation.
+To get started, a good first step is to replicate the q-variance curve using `baseline/baseline_fit.py` with the supplied `dataset.parquet` file. You can also check out `notebooks/qvariance_single.ipynb` which shows how q-variance is computed for a single asset, in this case the S&P 500.
 
-Next, use `score_submission.py` to read your `dataset.parquet` (must match format: ticker, date, T, z, sigma). This will bin the values of $z$ in the range from -0.6 to 0.6 as in the figure, and compute the average variance per bin. It also computes the R² of your binned averages to the q-variance curve $\sigma^2(z) = \sigma_0^2 + (z-z_0)^2/2$.
+Next, simulate a long series of daily prices using your model, and save as a CSV file with a column named 'Price'. Use `data_loader_csv.py` to compute the variances $\sigma^2(z)$ for each window and output your own `dataset.parquet` file. The benchmark file has around 3 million rows, so you want a long simulation.
 
-The threshold for the challenge is R² ≥ 0.995 with no more than three free parameters. The price-change distribution in $z$ should also be time-invariant, so the model should be independent of period length $T$. If your model doesn't tick all the boxes, please enter it anwyay because it may qualify for an honourable mention.
+Finally, use `score_submission.py` to read your `dataset.parquet` (must match format: ticker, date, T, z, sigma). This will bin the values of $z$ in the range from -0.6 to 0.6 as in the figure, and compute the average variance per bin. It also computes the R² of your binned averages to the q-variance curve $\sigma^2(z) = \sigma_0^2 + (z-z_0)^2/2$.
+
+The threshold for the challenge is R² ≥ 0.995 with no more than three free parameters. The price-change distribution in $z$ should also be time-invariant, so the model should be independent of period length $T$. If your model doesn't tick all the boxes, please enter it anyway because it may qualify for an honourable mention.
 
 To make your entry official:
 
@@ -65,6 +67,10 @@ Q: Is q-variance a well-known "stylized fact"?
 
 A: No, a stylized fact is a general observation about market data, but q-variance is a **falsifiable prediction** because the multiplicative constant on the quadratic term is not a fit, it is set by theory at 0.5. The same formula applies for all period lengths T. As far as we are aware this is the most clear-cut and easily tested example of a model prediction in finance.
 
+Q: Is q-variance about implied volatility?
+
+A: No, it is about asset price volatility. Q-variance does not involve option prices or implied volatility. There is a direct connection between q-variance and the implied volatility smile, but that is not the subject of this competition.
+
 Q: Has q-variance been previously reported in the literature?
 
 A: Not to our knowledge, and we have asked many experts, but please bring any references to our attention. If anyone has made the exact same prediction using a model then we will announce them the winner.
@@ -80,10 +86,6 @@ A: Yes, classical finance assumes a diffusive model for price change, but q-vari
 Q: How does q-variance vary over different time periods, or from stock to stock?
 
 A: In theory the curve should be time-invariant, though in practice there is a small degree of variation with period length, see [Figure 2](Figure_2.png). The results for individual stocks are of course noisier and have a different minimum volatility as shown in [Figure 3](Figure_3.png), but taking the average variance over a number of stocks smooths out this noise. The curve is based on a first-order approximation to dynamics, and can hold less well for example when volatility is very low. You can experiment further using the [Qvar Shiny app](https://david-systemsforecasting.shinyapps.io/qvar/).
-
-Q: Is q-variance related to the implied volatility smile?
-
-A: Yes. It is not the same thing because q-variance applies to realized volatility – but if you want to model implied volatility, a first step obviously is to understand realized volatility.
 
 Q: Is q-variance related to the price-change distribution over a period?
 
