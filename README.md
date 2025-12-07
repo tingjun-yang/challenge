@@ -12,11 +12,13 @@ where $z = x/\sqrt{T}$, and $x$ is the log price change over the period, adjuste
 
 Q-variance affects everything from option pricing to how we measure and talk about volatility. Read the [Q-Variance WILMOTT article](Q-Variance_Wilmott_July2025.pdf) for more details and examples. See the competition announcement (5-Dec-2025) in the WILMOTT forum [here](https://forum.wilmott.com/viewtopic.php?p=889508&sid=0eb1fdd23cee0e6824de7353248d2e22#p889503).
 
-To take part in the challenge, a suggested first step is to replicate the above figure using the code and market data supplied. Then use your model to produce a long time series of simulated price data, and score it as described below.
+To take part in the challenge, a suggested first step is to replicate the above figure using the code and market data supplied. Then repeat using simulated data from your model, and score it as described below.
 
 **Prize:** One-year subscription to WILMOTT magazine and publication of the technique.
 
 **Closing Date:** None.
+
+For questions on the competition, email admin@wilmott.com.
 
 ## Repository Contents
 
@@ -85,7 +87,7 @@ A: Yes. It is not the same thing because q-variance applies to realized volatili
 
 Q: Is q-variance related to the price-change distribution over a period?
 
-A: Yes, it implies that price-change follows the q-distribution which is a particular time-invariant, Poisson-weighted sum of Gaussians (see further reading below). [Figure 4](Figure_4.png) compares the q-distribution with the average distribution over the S&P 500 stocks, where the distribution of each stock has been normalized by its standard deviation for comparability. The time-invariance is illustrated in [Figure 5](Figure_5.png) for different periods $T$. If your model matches q-variance and is time-invariant then it should produce the q-distribution.
+A: Yes, it implies that price-change follows the q-distribution which is a particular time-invariant, Poisson-weighted sum of Gaussians (see further reading below). [Figure 4](Figure_4.png) compares the q-distribution with the average distribution over the S&P 500 stocks. The time-invariance is illustrated in [Figure 5](Figure_5.png) for different periods $T$. If your model matches q-variance and is time-invariant then it should produce the q-distribution.
 
 Q: Why should I enter this competition?
 
