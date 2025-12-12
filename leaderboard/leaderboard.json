@@ -4,8 +4,8 @@
     {
       "name": "Quantum Baseline",
       "author": "David Orrell",
-      "r2": 0.9528,
-      "params": 1,
+      "r2": 0.999,
+      "params": 2,
       "status": "Passed",
       "date": "2025-07-01"
     },
