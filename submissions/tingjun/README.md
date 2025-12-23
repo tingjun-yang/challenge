@@ -6,7 +6,7 @@ The **Stochastic Volatility Model** describes the evolution of a security price 
 - $dS = \mu S dt + \sigma S dw$
 - $dV = \phi V dt + \xi V dz$
 
-In this specific implementation, we assume the **volatility of volatility** is zero ($\xi = 0$). The drift of variance, $\phi$, is driven by the absolute log-return of the asset: $\phi = b \times \Delta \ln(S)$, where $b$ is a free scaling parameter.
+In this specific implementation, we assume the **volatility of volatility** is zero ($\xi = 0$). The drift of variance, $\phi$, is driven by the absolute log-return of the asset: $\phi = b \times |\Delta \ln(S)|$, where $b$ is a free scaling parameter.
 
 ## Parameters
 
