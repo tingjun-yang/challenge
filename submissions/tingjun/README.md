@@ -6,7 +6,7 @@ The **Stochastic Volatility Model** describes the evolution of a security price 
 - $dS = \mu S dt + \sigma S dW$
 - $dV = \phi V dt + \xi V dZ$
 
-In this specific implementation, we assume the **volatility of volatility** is zero ($\xi = 0$). The drift of variance, $\phi$, is deriven by the absolute log-return of the asset: $\phi = b \times \Delta \ln(S)$, where $b$ is a free scaling parameter.
+In this specific implementation, we assume the **volatility of volatility** is zero ($\xi = 0$). The drift of variance, $\phi$, is driven by the absolute log-return of the asset: $\phi = b \times \Delta \ln(S)$, where $b$ is a free scaling parameter.
 
 ## Parameters
 
@@ -29,7 +29,7 @@ Note:
 * Data generation logic can be found in the [price_generator.ipynb](price_generator.ipynb).
 
 ## Results
-The model achieves a high degree of fit with the simulated paths.
+The model achieves a high $R^{2}$ with the simulated paths.
 * **Global R²**: **0.998**
 
 <img src="Figure_1.png" width="700">
