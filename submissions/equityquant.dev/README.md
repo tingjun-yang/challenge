@@ -173,5 +173,5 @@ automatically concatenates the split files when `dataset.parquet` is not present
 No data has been modified or filtered; the three files together form the complete
 submission dataset.
 
-## Contact: 
+## Contact
 Thelonious Casey — theo.casey@marketcolor.co  
