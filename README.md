@@ -56,6 +56,7 @@ To make your entry official:
 2. Place your model output in `submissions/your_team_name/` as:
    - `dataset.parquet` with all data (must have columns: ticker, date, T, z, sigma)
    - sample CSV file of daily prices for 100K days (must have column: Price)
+   - code to produce a time series of daily prices and returns (Python or R)
 3. Add a `README.md` in your folder with:
    - Team name
    - Short model description
@@ -66,11 +67,11 @@ To make your entry official:
 
 Q: Is q-variance a well-known "stylized fact"?
 
-A: No, a stylized fact is a general observation about market data, but q-variance is a **falsifiable prediction** because the multiplicative constant on the quadratic term is not a fit, it is set by theory at 0.5. The same formula applies for all period lengths T. As far as we are aware this is the most clear-cut and easily tested example of a model prediction in finance.
+A: No, a stylized fact is a general observation about market data, but q-variance is a **falsifiable prediction** because the multiplicative constant on the quadratic term is not a fit, it is set by theory at 0.5. The same formula applies for all period lengths T. As far as we are aware this is the most clear-cut and easily tested example of a model prediction in finance. For some reason though conventional models don't show it.
 
 Q: Is it only noticeable over very long time series, or by averaging the results from hundreds of different stocks?
 
-A: No, you can see q-variance over normal time scales such as 20 years of data. It holds not just for stocks, but even for things like Bitcoin or bond yields (see the [article](Q-Variance_Wilmott_July2025.pdf)). If your model only seems to show q-variance over much longer simulations then it will be sensitive to small changes (e.g. to the exact simulation time) and it also won't be realistic.
+A: No, you can see q-variance over normal time scales such as 20 years of data. It holds not just for stocks, but even for things like Bitcoin or bond yields (see the [article](Q-Variance_Wilmott_July2025.pdf)). If a model of it only works over much longer simulations then it will be sensitive to small changes (e.g. to the exact simulation time) and it also won't be realistic.
 
 Q: Is q-variance about implied volatility?
 
