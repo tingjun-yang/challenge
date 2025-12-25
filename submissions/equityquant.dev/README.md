@@ -130,10 +130,11 @@ The model uses **three effective free parameters**:
 | Parameter | Value | Description |
 |---------|------|------------|
 | $\sigma_0$ | 0.25 | Long-run annual volatility scale |
-| $\kappa$ | 0.02 | Mean-reversion speed of precision |
+| $\kappa$ | 0.5 | Mean-reversion speed of precision |
 | $c$ | 10.0 | Shock intensity scaling |
 
-These parameters control the scale and persistence of shock activity and were **not tuned** to fit the q-variance parabola.
+Note: In the latest code version, 
+𝜅 is set in a **fast-mixing regime** to improve stability and reduce sensitivity to simulation length.
 
 ---
 
@@ -146,9 +147,8 @@ All remaining parameters are fixed *a priori* for numerical stability and scale 
 | `a_shape` | 1.5 | Diffusion discretisation constant |
 | `lam_cap` | 500.0 | Poisson intensity cap (numerical safeguard) |
 | `dt` | 1 / 252 | Trading-day discretisation |
-| `seed` | 3 | Reproducibility only |
+| `seed` | 6 | Reproducibility only |
 | `s0` | 100.0 | Initial price |
-| `n_days` | 120,000 | Simulation length |
 
 The Poisson cap is set sufficiently high that it is **rarely binding** and does not affect the fitted q-variance curve.
 
@@ -156,12 +156,21 @@ The Poisson cap is set sufficiently high that it is **rarely binding** and does 
 
 ## Results
 
+ex: n_days = 100K 
 <p align="center">
   <img src="result1.png" width="650">
 </p>
 
-Simulated price paths reproduce the q-variance relationship with a global
-goodness-of-fit of **R² ≈ 0.996**, exceeding the challenge threshold of **0.995**.
+| Simulation Length (n_days) | σ₀ (fitted) | z₀ (fitted) |    R² |
+| -------------------------: | ----------: | ----------: | ----: |
+|                      5,000 |       0.346 |       0.048 | 0.947 |
+|                     10,000 |       0.344 |       0.054 | 0.970 |
+|                     15,000 |       0.315 |       0.055 | 0.972 |
+|                     60,000 |       0.318 |       0.002 | 0.991 |
+|                    100,000 |       0.323 |      −0.012 | 0.997 |
+|                    120,000 |       0.318 |      −0.017 | 0.997 |
+|                    180,000 |       0.297 |      −0.012 | 0.990 |
+
 
 ## Dataset Notes
 
