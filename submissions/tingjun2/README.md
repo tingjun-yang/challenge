@@ -49,8 +49,8 @@ The model was tested across two different simulation scales to evaluate the stab
 
 | Total Days | $\sigma_0$ | $z_{off}$ | $R^2$ | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| **100,000** | **0.258** | **0.021** | **0.993** | Optimized parameters; matches expected values. |
-| **5,000,000** | **0.271** | **0.035** | **0.981** | Parameters fixed from 100k-day run. |
+| **100,000** | **0.252** | **0.026** | **0.996** | Optimized parameters; matches expected values. |
+| **5,000,000** | **0.267** | **0.039** | **0.976** | Parameters fixed from 100k-day run. |
 
 ### Statistical Sensitivity and Sample Size
 The optimization performed on the 100,000-day sample successfully recovered the expected fit parameters ($\sigma_0 \approx 0.259, z_{off} \approx 0.021$). However, applying these same parameters to a 5,000,000-day sample resulted in a slight divergence in the fit coefficients and a lower $R^2$.
@@ -58,9 +58,6 @@ The optimization performed on the 100,000-day sample successfully recovered the 
 This behavior highlights the dependence of the GARCH-to-Q-variance mapping on sample statistics:
 - **Local Optimization:** On smaller scales (100k days), parameters can be "tuned" to the specific random path generated.
 - **Real-World Parallel:** This mirrors empirical observations in market data. For instance, a Q-variance fit to a massive aggregate of **all stocks** often yields an $R^2$ as high as **0.999** due to the diversification of noise. In contrast, fitting to a smaller subset like the **S&P 500** typically yields an $R^2 \approx 0.857$, as the smaller sample size allows idiosyncratic volatility shocks to persist rather than average out.
-
-By treating each 2,500-day block as a unique ticker and de-meaning $z$-scores at the block level, the model maintains the structural quadratic relationship, though the "cleanliness" of the fit remains subject to the law of large numbers.
-
 
 
 <div style="display: flex;">
