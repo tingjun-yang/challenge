@@ -17,7 +17,7 @@ The model utilizes 3 primary parameters optimized for the highest $R^2$ fit:
 - **Persistence Factor ($\lambda$):** $0.7425$
 
 ## Simulation
-The simulation generates a synthetic price history consisting of **40 independent samples**, each spanning **2,500 trading days** (approx. 10 years). Each sample is treated as a unique "virtual ticker" to ensure independent de-meaning during window analysis.
+The simulation generates a synthetic price history consisting of **40 independent paths**, each spanning **2,500 trading days**. To maximize statistical smoothing and capture the long-term convergence of the q-variance relationship, **all samples are merged into a single continuous sample** for analysis.
 
 The discrete-time updates are calculated as follows:
 
