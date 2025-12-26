@@ -1,68 +1,79 @@
 # GARCH(1,1) Volatility Model Submission
 
 ## Model Overview
-
 The **GARCH(1,1) Volatility Model** (Generalized Autoregressive Conditional Heteroskedasticity) describes the evolution of a security price $S$ where the variance $V$ is a stochastic process exhibiting **Mean Reversion** and **Volatility Clustering**. 
 
-In this implementation, the variance update follows discrete-time GARCH(1,1) logic. Tomorrow's variance is calculated as a weighted average of three components:
-1.  **The Anchor ($\omega$):** A constant that pulls variance back toward the long-term target.
-2.  **Persistence ($\lambda$):** The influence of the previous day's variance.
-3.  **Innovation ($\alpha$):** The reaction to the most recent squared price return (the "shock").
+This implementation maps the discrete-time GARCH process to the theoretical **Q-Variance** relationship. By simulating millions of trading days, we demonstrate that the stochastic variance updates converge to a deterministic parabolic fit: $V(z) = \sigma_0^2 + \frac{(z - z_{off})^2}{2}$.
 
-## Parameters
+## Parameters & Mapping Logic
+The model utilizes three primary GARCH parameters. Through optimization against a 5,000,000-day sample, these parameters were tuned to recover the specific geometry of the Q-variance parabola:
 
-The model utilizes 3 primary parameters optimized for the highest $R^2$ fit:
-- **Target Annual Volatility ($\sigma$):** $0.0925$
-- **Annual Expected Return ($\mu$):** $0.1$
-- **Persistence Factor ($\lambda$):** $0.7425$
+| GARCH Parameter | Value | Influence on Q-Variance Geometry |
+| :--- | :--- | :--- |
+| **Target Vol ($\sigma$)** | **0.0950** | **Minimal Volatility ($\sigma_0$):** Sets the vertical baseline (the "floor" of the parabola). |
+| **Annual Return ($\mu$)** | **0.0844** | **Z-Shift ($z_{off}$):** Controls the horizontal asymmetry (displacement from zero). |
+| **Persistence ($\lambda$)** | **0.8000** | **Curvature/Steepness:** Higher $\lambda$ increases persistence, making the parabola **steeper and narrower** |
 
-## Simulation
-The simulation generates a synthetic price history consisting of **40 independent paths**, each spanning **2,500 trading days**. To maximize statistical smoothing and capture the long-term convergence of the q-variance relationship, **all samples are merged into a single continuous sample** for analysis.
+## Simulation Methodology
+The simulation generates a synthetic price history using independent paths of **2,500 trading days** each. To eliminate "local path luck" and ensure statistical smoothing, we utilize **2,000 samples** to create a total dataset of **5,000,000 trading days**.
 
-The discrete-time updates are calculated as follows:
+### Discrete-Time Updates
 
 - **Variance Update (GARCH Logic):**
 
 $$
 V_i = \omega + \lambda V_{i-1} + (1 - \lambda - 0.01) \cdot \left( \frac{S_{i-1} - S_{i-2}}{S_{i-2}} \right)^2
 $$
-
-Where $\omega = \frac{\sigma^{2}}{252} \cdot (1 - \lambda)$
+where $\omega = \frac{\sigma^{2}}{252} \cdot (1 - \lambda)$.
 
 - **Price Update:**
 
 $$
 S_i = S_{i-1} \exp\left( \frac{\mu}{252} - \frac{V_i}{2} + \sqrt{V_i} \epsilon \right)
 $$
+where $\epsilon \sim \mathcal{N}(0,1)$.
 
-Note:
-* $\epsilon \sim \mathcal{N}(0,1)$ 
-* Each 2,500-day block resets to $S_0 = 100$ and $V_0 = V_{target}$.
-* Data generation logic can be found in the [price_generator2.ipynb](price_generator2.ipynb).
-* 100k days of prices are saved in the [simulated_prices.csv](simulated_prices.csv) file.
+---
 
-## Results
+## Results & Convergence Analysis
 
-The model was tested across two different simulation scales to evaluate the stability of the $R^2$ metric and the recovery of the theoretical parameters ($\sigma_0$ and $z_{off}$). 
+The model was optimized using the 5M-day horizon to achieve a high-fidelity fit against the theoretical target parameters ($\sigma_0 = 0.2586$ and $z_{off} = 0.0214$).
 
-### Performance Comparison
-
-| Total Days | $\sigma_0$ | $z_{off}$ | $R^2$ | Notes |
+### Optimized Model Performance
+| Total Days | $\sigma_0$ (Target) | $z_{off}$ (Target) | $R^2$ | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| **100,000** | **0.252** | **0.026** | **0.996** | Optimized parameters; matches expected values. |
-| **5,000,000** | **0.267** | **0.039** | **0.976** | Parameters fixed from 100k-day run. |
+| **5,000,000** | 0.2586 | 0.0214 | **0.9967** | High-fidelity structural convergence. |
+| **100,000** | 0.2586 | 0.0214 | **0.9701** | Lower $R^2$ due to idiosyncratic noise. |
 
-### Statistical Sensitivity and Sample Size
-The optimization performed on the 100,000-day sample successfully recovered the expected fit parameters ($\sigma_0 \approx 0.259, z_{off} \approx 0.021$). However, applying these same parameters to a 5,000,000-day sample resulted in a slight divergence in the fit coefficients and a lower $R^2$.
+### Comparative Visualizations
+The transition from 100k days to 5M days shows the "clearing" of statistical noise. In the large sample, the stochastic variance updates converge almost perfectly to the theoretical parabola.
 
-This behavior highlights the dependence of the GARCH-to-Q-variance mapping on sample statistics:
-- **Local Optimization:** On smaller scales (100k days), parameters can be "tuned" to the specific random path generated.
-- **Real-World Parallel:** This mirrors empirical observations in market data. For instance, a Q-variance fit to a massive aggregate of **all stocks** often yields an $R^2$ as high as **0.999** due to the diversification of noise. In contrast, fitting to a smaller subset like the **S&P 500** typically yields an $R^2 \approx 0.857$, as the smaller sample size allows idiosyncratic volatility shocks to persist rather than average out.
-
-
-<div style="display: flex;">
-  <img src="Figure_1_100k.png" width="500">
-  <img src="Figure_1_5M.png" width="500">
+#### **100,000 Day Sample (Noise-Dominant)**
+<div style="display: flex; justify-content: space-around;">
+  <img src="Figure_1_100k.png" width="32%">
+  <img src="Figure_3_100k.png" width="32%">
+  <img src="Figure_4_100k.png" width="32%">
 </div>
 
-*Figures: Comparison of the q-variance fit for 100k days (left) and 5M days (right).*
+#### **5,000,000 Day Sample (Structural Convergence)**
+<div style="display: flex; justify-content: space-around;">
+  <img src="Figure_1_5M.png" width="32%">
+  <img src="Figure_3_5M.png" width="32%">
+  <img src="Figure_4_5M.png" width="32%">
+</div>
+
+---
+
+### Statistical Stability Analysis
+By plotting $R^2$ as a function of total simulated days, we identified a clear threshold for statistical validity:
+
+- **Convergence Point:** The model consistently reaches $R^2 > 0.995$ after approximately **1,130,000 days**.
+- **The Law of Large Numbers:** Beyond 2 million days, the fit quality stabilizes at an asymptote, confirming that the optimized GARCH parameters accurately represent the underlying Q-variance structure.
+
+![Convergence Analysis](convergence_analysis.png)
+*Figure: $R^2$ score vs. Total Days. The 0.995 threshold is maintained after the 1M-day mark.*
+
+## Project Structure
+- `price_generator.ipynb`: Vectorized simulation and optimization logic.
+- `simulated_prices.csv`: 100k days of raw price data for verification.
+- `dataset_part1.parquet`, `dataset_part2.parquet`, `dataset_part3.parquet`: 5M days of analyzed window data.
