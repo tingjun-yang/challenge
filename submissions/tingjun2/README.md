@@ -12,7 +12,7 @@ The model utilizes three primary GARCH parameters. Through optimization against 
 | :--- | :--- | :--- |
 | **Target Vol ($\sigma$)** | **0.0950** | **Minimal Volatility ($\sigma_0$):** Sets the vertical baseline (the "floor" of the parabola). |
 | **Annual Return ($\mu$)** | **0.0844** | **Z-Shift ($z_{off}$):** Controls the horizontal asymmetry (displacement from zero). |
-| **Persistence ($\lambda$)** | **0.8000** | **Curvature/Steepness:** Higher $\lambda$ increases persistence, making the parabola **steeper and narrower** |
+| **Persistence ($\lambda$)** | **0.8000** | **Curvature/Steepness:** Lower $\lambda$ increases persistence, making the parabola **steeper and narrower** |
 
 ## Simulation Methodology
 The simulation generates a synthetic price history using independent paths of **2,500 trading days** each. To eliminate "local path luck" and ensure statistical smoothing, we utilize **2,000 samples** to create a total dataset of **5,000,000 trading days**.
@@ -24,6 +24,7 @@ The simulation generates a synthetic price history using independent paths of **
 $$
 V_i = \omega + \lambda V_{i-1} + (1 - \lambda - 0.01) \cdot \left( \frac{S_{i-1} - S_{i-2}}{S_{i-2}} \right)^2
 $$
+
 where $\omega = \frac{\sigma^{2}}{252} \cdot (1 - \lambda)$.
 
 - **Price Update:**
@@ -31,6 +32,7 @@ where $\omega = \frac{\sigma^{2}}{252} \cdot (1 - \lambda)$.
 $$
 S_i = S_{i-1} \exp\left( \frac{\mu}{252} - \frac{V_i}{2} + \sqrt{V_i} \epsilon \right)
 $$
+
 where $\epsilon \sim \mathcal{N}(0,1)$.
 
 ---
