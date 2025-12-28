@@ -92,7 +92,7 @@ plt.title('Q-Variance: all data T=1 to 26 weeks', fontsize=14)
 plt.xlim(-zmax, zmax) 
 plt.ylim(0.0, ymax)
 
-plt.legend(fontsize=12)
+plt.legend(fontsize=12, loc='upper right')
 plt.grid(alpha=0.3)
 plt.tight_layout()
 ##plt.savefig("figure_1_1.png", dpi=300, bbox_inches='tight')
@@ -152,12 +152,14 @@ ax.set_title(f'Mean R2 for individual stocks = {r2mean:4f},  median = {r2median:
 ymax2 = 1.2
 ax.axis([-zmax+delz/2, zmax-delz/2, 0, ymax2])   # uses ymax2 for ensemble plot
 
-
+data = df_orig.copy()
 # now plot q-variance for different periods T, check for period-depenedence
 # plot with periods
 TVEC = [5, 10, 20, 40, 80]
 
 plt.figure(figsize=(9,7))
+popt = [0.2586, 0.0214]  # same as optimized fit to data  # for competition score should fit original parabola
+fitted = qvar(binned.z_mid, popt[0], popt[1])  # cols are z_bin, which is a range like (-0.601, -0.55], and qvar
 #plt.plot(binned.z_mid, binned['var'], 'b-', lw=3,label='all T')  
 plt.plot(binned.z_mid, fitted, 'red', lw=3, label=f'σ₀ = {popt[0]:.3f}, zoff = {popt[1]:.3f}, R² = {r2:.3f}')
 
@@ -174,11 +176,13 @@ for Tcur in TVEC:
     r2 = 1 - np.sum((binned["var"] - fitted)**2) / np.sum((binned["var"] - binned["var"].mean())**2)
     print(f"T = {Tcur} σ₀ = {popt[0]:.4f}  zoff = {popt[1]:.4f}  R² = {r2:.4f}")
     colcur = str(Tcur/100)
-    ##plt.plot(binned.z_mid, binned['var'], c=colcur, lw=2,label=f'T = {Tcur/5:.0f}, R² = {r2:.3f}') 
-    plt.plot(binned.z_mid, binned['var'], c=colcur, lw=2,label=f'T = {Tcur/5:.0f}') 
+    plt.plot(binned.z_mid, binned['var'], c=colcur, lw=2,label=f'T = {Tcur/5:.0f}, R² = {r2:.3f}') 
+    #plt.plot(binned.z_mid, binned['var'], c=colcur, lw=2,label=f'T = {Tcur/5:.0f}') 
 
 plt.xlabel('z (scaled log return)', fontsize=12)
 plt.ylabel('Annualised variance', fontsize=12)
+plt.legend(fontsize=10, loc='upper center')
+plt.grid(alpha=0.3)
 plt.title('All stocks T=2, 4, 8, 16 weeks – Q-Variance', fontsize=14)
 
 
