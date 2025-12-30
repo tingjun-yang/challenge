@@ -1,6 +1,8 @@
 **Rationally Turbulent Expectations Model**
 
-The underlying model is described in Chapter 7 of my book Rationally Turbulent Expectations, which is freely available on SSRN, and was not designed with any attention to Q-variance. I assume only that:
+Kent Osband
+
+The underlying model is described in Chapter 7 of my book Rationally Turbulent Expectations, which is freely available on [SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5202486), and was not designed with any attention to Q-variance. I assume only that:
 
 - Equities discount continuous dividend streams that have constant volatility and Markov-switching drifts.
 - Traders are Perfect Learners, who know the underlying parameters and infer drifts optimally from evidence on dividends.
@@ -11,3 +13,4 @@ Like in the book, the drifts and volatility are fitted to Shiller’s data on re
 
 Fair market prices were estimated by simulating daily trading 252 days a year for a million years, sorting beliefs by mean and variance into 5,000 equal-sized bins, and iterating to convergence given a risk-free yearly discount rate of 0.01. How real-life traders would grope toward this solution is an open question, perhaps better modeled using David Orrell’s quantum methodology.
 
+<img src="Figure_1_3State.png" width="800">
