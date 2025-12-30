@@ -1,6 +1,6 @@
 **Rationally Turbulent Expectations Model**
 
-Kent Osband
+by Kent Osband
 
 The underlying model is described in Chapter 7 of my book Rationally Turbulent Expectations, which is freely available on [SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5202486), and was not designed with any attention to Q-variance. I assume only that:
 
