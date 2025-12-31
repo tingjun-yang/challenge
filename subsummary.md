@@ -14,7 +14,7 @@ Other entries have used a stochastic volatility approach, however the models eit
 
 Most entries have tackled the challenge by attempting to reverse-engineer the figure. A different approach was taken in an [entry](https://github.com/q-variance/challenge/tree/main/submissions/Kent) which showed that a preexisting model produced an approximate version of q-variance. While the model had more than three parameters, it was a rare example of a model which naturally produces the desired kind of behaviour without special recalibration.
 
-One thing raised by the competition is that entries which, on paper at least, should satisfy q-variance, also turn out to be impossible to calibrate, without adding extra parameters to stabilize the model. The reason it turns out is that, given reasonable assumptions, any continuous-time model which satisfies q-variance also has infinite variance-of-variance, so is highly unstable.
+One thing raised by the competition is that entries which, on paper at least, should satisfy q-variance, often also turn out to be impossible to calibrate, without adding extra parameters to stabilize the model. The reason it turns out is that, given reasonable assumptions, any continuous-time model which satisfies q-variance also has infinite variance-of-variance, so is highly unstable.
 
 We therefore have no firm winner, but a number of close entries (Wilmott magazine to announce later). 
 
