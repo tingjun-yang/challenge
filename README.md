@@ -67,7 +67,7 @@ To make your entry official:
 - Read the [summary of previous submissions](subsummary.md) so you don't duplicate an existing approach.
 - Check your model is robust to things like the number of simulation steps or sample lengths, otherwise these are counted as parameters. The model data should converge to the parabola, not just match it for a particular choice of simulation time.
 - Something counts as a parameter if it is adjusted to fit the desired result, or if changing it within reasonable bounds affects the result. Please declare **all such parameters**, don't have an ad hoc number or adjustment somewhere in your code which affects the results but is not declared as a parameter. The test is not whether a number is explicitly optimized, it is whether it can be eliminated and the model still works.
-- Parameters need to include a drift or offset, because the aim is to fit the specific parabola in Figure 1 which has a small offset.
+- Parameters need to include a drift or offset, because the aim is to fit the specific parabola in Figure 1 which has a small offset of $z_0 = 0.021$. The minimum volatility should be $\sigma_0=0.259$.
 - Standard techniques like stochastic volatility, rough volatility, or GARCH typically involve a minimum of four parameters when we include the drift (and often more to ensure a stable solution for this problem). That means you need to do something different.
 - The model should be T-invariant, so changing the period T should not give a very different result, either in terms of the q-variance plot or the distribution.
 - Make sure that you submit a sample time series and the code to replicate the model, not just a parquet file and a plot.
